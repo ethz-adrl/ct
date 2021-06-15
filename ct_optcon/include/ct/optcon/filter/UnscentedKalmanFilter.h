@@ -147,9 +147,9 @@ public:
     //! Predict measurements of sigma points.
     void computeSigmaPointMeasurements(SigmaPoints<OUTPUT_DIM>& sigmaMeasurementPoints, const ct::core::Time& t = 0);
 
-    //! Make a prediction based on sigma points.
+    //! Make a prediction based on sigma points. Used for both state and output prediction.
     template <size_t DIM>
-    state_vector_t computePredictionFromSigmaPoints(const SigmaPoints<DIM>& sigmaPoints);
+    Eigen::Matrix<SCALAR, DIM, 1> computePredictionFromSigmaPoints(const SigmaPoints<DIM>& sigmaPoints);
 
 private:
     state_matrix_t P_;                                          //! Covariance matrix.
