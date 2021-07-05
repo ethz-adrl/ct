@@ -105,7 +105,7 @@ int main(int argc, char** argv)
         new ct::optcon::CTSystemModel<state_dim, control_dim>(oscillator_observer_model, sensApprox, dFdv));
 
     // set up the measurement model
-    ct::core::OutputStateMatrix<output_dim, state_dim> dHdw;
+    ct::core::OutputMatrix<output_dim> dHdw;
     dHdw.setIdentity();
     std::shared_ptr<ct::optcon::LinearMeasurementModel<output_dim, state_dim>> measModel(
         new ct::optcon::LTIMeasurementModel<output_dim, state_dim>(C, dHdw));

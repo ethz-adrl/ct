@@ -62,6 +62,7 @@ UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::UnscentedKalm
     const ct::core::StateMatrix<STATE_DIM, SCALAR>& P0)
     : Base(f, h, x0), alpha_(alpha), beta_(beta), kappa_(kappa), P_(P0)
 {
+    computeWeights();
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
@@ -75,6 +76,7 @@ UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::UnscentedKalm
       kappa_(ukf_settings.kappa),
       P_(ukf_settings.P0)
 {
+    computeWeights();
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
@@ -263,8 +265,9 @@ void UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::computeS
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
 template <size_t DIM>
-auto UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::computePredictionFromSigmaPoints(
-    const SigmaPoints<DIM>& sigmaPoints) -> state_vector_t
+Eigen::Matrix<SCALAR, DIM, 1>
+UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::computePredictionFromSigmaPoints(
+    const SigmaPoints<DIM>& sigmaPoints)
 {
     // Use efficient matrix x vector computation
     return sigmaPoints * sigmaWeights_m_;
